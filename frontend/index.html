@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>UVA Data Science Coding Language Survey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <main class="container">
+        <h1>UVA Data Science Coding Language Survey</h1>
+        <p class="lead">
+             Fill out the form and select the button labelled 'submit survey' when you are done. This page will POST your answers as JSON
+          to <code>http://127.0.0.1:5000/v1/survey</code>.<br>
+          Sensitive information will be encrypted.
+        </p>
+        
+        <form id="survey-form" novalidate>
+            
+            <div class="field">
+                <label for="name">Full Name<span aria-hidden="true">*</span></label>
+                <input id="name" name="name" type="text" maxlength="100" placeholder="Enter your full name" required />
+                <small id="nameHelp">Max 100 characters.</small>
+            </div>
+            
+            <div class="field">
+                <label for="email">Email <span aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" placeholder="Enter your email" required />
+            </div>
+        
+            <div class="field">
+                <label for="role">What position best describes you?<span aria-hidden="true">*</span></label>
+                <select id="role" name="role" required>
+                    <option value="na">N/A</option>
+                    <option value="BSDS-student">BSDS Student</option>
+                    <option value="MSDS-student">MSDS Student</option>
+                    <option value="phd-student">Ph.D. Student</option>
+                    <option value="sds-faculty">SDS Faculty</option>
+                </select>
+            </div>
+            
+            <fieldset class="form-control">
+                <legend>Coding Languages Known
+                    <small>(Check all that apply)</small>
+                </legend>
+                <label for="inp-1">
+                    <input type="checkbox" name="language" value="Python" data_lang="python">Python
+                </label>
+                <label for="inp-2">
+                    <input type="checkbox" name="language" value="R" data_lang="r">R
+                </label>
+                <label for="inp-3">
+                    <input type="checkbox" name="language" value="SQL" data_lang="sql">SQL
+                </label>
+                <label for="inp-4">
+                    <input type="checkbox" name="language" value="Java" data_lang="java">Java
+                </label>
+                <label for="inp-5">
+                    <input type="checkbox" name="language" value="C/C++" data_lang="c-cpp">C/C++
+                </label>
+                <label for="inp-6">
+                    <input type="checkbox" name="language" value="Go" data_lang="go">Go
+                </label>
+                
+            </fieldset>
+            
+            <div id="proficiency-fields">
+                <div class="field proficiency-field hidden" data-lang-prof="python">
+                    <label for="python-prof">Python Proficiency</label>
+                    <select id="python-prof" name="proficiency-python">
+                        <option value="just-starting">Just starting out</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="confident">Confident</option>
+                    </select>
+                </div>
+                <div class="field proficiency-field hidden" data-lang-prof="r">
+                    <label for="r-prof">R Proficiency</label>
+                    <select id="r-prof" name="proficiency-r">
+                        <option value="just-starting">Just starting out</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="confident">Confident</option>
+                    </select>
+                </div>
+                <div class="field proficiency-field hidden" data-lang-prof="sql">
+                    <label for="sql-prof">SQL Proficiency</label>
+                    <select id="sql-prof" name="proficiency-sql">
+                        <option value="just-starting">Just starting out</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="confident">Confident</option>
+                    </select>
+                </div>
+                <div class="field proficiency-field hidden" data-lang-prof="java">
+                    <label for="java-prof">Java Proficiency</label>
+                    <select id="java-prof" name="proficiency-java">
+                        <option value="just-starting">Just starting out</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="confident">Confident</option>
+                    </select>
+                </div>
+                <div class="field proficiency-field hidden" data-lang-prof="c-cpp">
+                    <label for="c-cpp-prof">C/C++ Proficiency</label>
+                    <select id="c-cpp-prof" name="proficiency-c-cpp">
+                        <option value="just-starting">Just starting out</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="confident">Confident</option>
+                    </select>
+                </div>
+                <div class="field proficiency-field hidden" data-lang-prof="go">
+                    <label for="go-prof">Go Proficiency</label>
+                    <select id="go-prof" name="proficiency-go">
+                        <option value="just-starting">Just starting out</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="confident">Confident</option>
+                    </select>
+                </div>
+            </div>
+    
+          <button id="submitBtn" type="submit">Submit survey</button>
+        </form>
+        
+        <section id="result" class="result" aria-live="polite"></section>
+    </main>
+
+    <script>
+        const form = document.getElementById("survey-form");
+        const result = document.getElementById("result");
+        const submitBtn = document.getElementById("submitBtn");
+    
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          result.textContent = "";
+          submitBtn.disabled = true;
+    
+          const fd = new FormData(form);
+          const payload = {
+            name: (fd.get("name") || "").toString(),
+            email: (fd.get("email") || "").toString(),
+            role: (fd.get("role") || "").toString(),
+            languages: fd.getAll("language"),
+            proficiencies:{},
+          };
+
+          payload.languages.forEach(langName => {
+            let profKey = langName.toLowerCase();
+            if (profKey === 'c/c++') {
+                profKey = 'c-cpp';
+            }
+
+            const proficiencyName = `proficiency-${profKey}`;
+            const proficiencyValue = (fd.get(proficiencyName) || "").toString();
+
+            if (proficiencyValue) {
+                const profFieldElement = document.querySelector(`.proficiency-field[data-lang-prof="${profKey}"]`);
+                if (profFieldElement && !profFieldElement.classList.contains('hidden')) {
+                    payload.proficiencies[langName] = proficiencyValue;
+                }   
+            }
+            });
+          
+          try {
+        const res = await fetch("http://127.0.0.1:5000/v1/survey", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const body = await res.json().catch(() => ({}));
+
+        if (res.ok) {
+          result.className = "result ok";
+          result.textContent = "Thanks! Submission stored successfully.";
+          form.reset();
+          proficiencyFields.forEach(field => field.classList.add('hidden'));
+        } else {
+          result.className = "result error";
+          const detail = body.detail ? JSON.stringify(body.detail) : res.statusText;
+          result.textContent = `Error ${res.status}: ${body.error || "request_failed"} — ${detail}`;
+        }
+      } catch (err) {
+        result.className = "result error";
+        result.textContent = "Network error. There is an issue on the API at http://127.0.0.1:5000";
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+    </script>
+    <script>
+        const languageCheckboxes = document.querySelectorAll('input[name="language"]');
+        const proficiencyFields = document.querySelectorAll('.proficiency-field');
+        
+        languageCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const lang = checkbox.getAttribute('data_lang');
+                const profField = document.querySelector(`.proficiency-field[data-lang-prof="${lang}"]`);
+                
+                if (checkbox.checked) {
+                    profField.classList.remove('hidden');
+                } else {
+                    profField.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+    <style>
+        :root{--uva-navy:#232D4B; --uva-orange:#E57200; --uva-blue:#007BAC; --gray-50:#fafafa; --gray-200:#e5e7eb; --gray-600:#4b5563;}
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--gray-50); color: var(--uva-navy); }
+        .container { max-width: 760px; margin: 3rem auto; background: var(--card); padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+        h1 { margin-top: 0; font-size: 1.75rem; }
+        .lead { color: var(--uva-orange); margin-bottom: 1.25rem; }
+        .field { margin: 1rem 0; display: flex; flex-direction: column; gap: .4rem; }
+        .field.checkbox { flex-direction: row; align-items: center; gap: .6rem; }
+        label { font-weight: 600; }
+        legend { font-weight: 600; }
+        input[type="text"], input[type="email"], input[type="number"], select, textarea { background: #e5e7eb; color: var(--text); border: 1px solid #1f2937; border-radius: .6rem; padding: .6rem .8rem;}
+        small { color: var(--uva-orange); }
+        button { background: #007BAC; color: #fafafa; border: none; padding: .7rem 1rem; border-radius: .6rem; cursor: pointer; font-weight: 600; }
+        button:disabled { opacity: .6; cursor: not-allowed; }
+        .result { margin-top: 1rem; padding: .8rem; border-radius: .5rem; }
+        .result.ok { background: #E5CEB7; color: var(--uva-orange); border: 1px solid rgba(16,185,129,.4); }
+        .result.error { background: #E5CEB7; color: var(--uva-orange); border: 1px solid rgba(239,68,68,.4); }
+        code { background: #e5e7eb; padding: 2px 6px; border-radius: 4px; }
+        .form-control input[type="radio"],
+        .form-control input[type="checkbox"] {display: inline-block; width: auto;}
+        .form-control label {display: block; margin-bottom: 10px;}
+        fieldset {border:0 none;}
+        .c-checkbox input:focus + .c-checkbox__label {outline: dashed 2px lightgrey; outline-offset: 5px;}
+        .hidden {display: none;}
+    </style>
+</body>
+</html>
