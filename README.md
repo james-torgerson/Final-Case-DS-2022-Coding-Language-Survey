@@ -74,14 +74,31 @@ In the app.py file, incoming data is validated using Pydantic models to ensure t
 ### Ops  
 This app does not serve logs/metrics beyond what can be seen in the console when running the app. For scaling, if this project were to be scaled up, a more robust database would be needed to store the data beyond a single .ndjson file and the hosting service would need to be able to handle greater amounts of traffic.   
 
-## Results and Evaluation
+## Results and Evaluation   
+**Frontend**   
+![screenshot of the HTML form frontend](assets/frontend_screenshot.png)   
+
+**Form Error Response**   
+![screenshot of the HTML form error response](assets/form_error_responses.png)   
+
+**Data Storage**   
+![Screenshot of returned ndjson responses](assets/ndjson_response.png)   
+
+**Passing Smoke Tests**   
+![Screenshot of pytest passing on CLI](assets/pytest_pass.png)   
+
+
 
 ## What's Next
 Because this is a simple survey application that only works on the data collection side, there are a few possible ways to improve or extend this project.  
+
 First, the application and associated HTML form could be enhanced with more data fields, such as allowing users to add more demographic information (eg. age, educational background) or options for coding languages not already listed in the form. Depending on what the client/user wants to see using the data, this could show additional factors in what coding languages are more popular amongst different groups of people.    
-Second, the application could be extended to show summaries of the data, including data visualization features. This would be done by adding additional API endpoints to show the aggregate data, maybe including visualizations to enhance understanding. This could also be expressed on the frontend by creating a dashboard accessible via the HTML pages of the webapp.  
+
+Second, the application could be extended to show summaries of the data, including data visualization features. This would be done by adding additional API endpoints to show the aggregate data, maybe including visualizations to enhance understanding. This could also be expressed on the frontend by creating a dashboard accessible via the HTML pages of the webapp. 
+
 Lastly, the application could be extended to include user authentication, which is the standard practice for most in-house university surveys. However, this would probably require a much more complex backend system and, if wanting to keep consistent with the university's authentication system, would require integration with Netbadge (which is well beyond the scope of this project!).   
 
 ## Links
-GitHub Repository:
-Public Cloud App: <http://sds-coding-language-survey-app.azurewebsites.net> 
+GitHub Repository: <https://github.com/james-torgerson/Final-Case-DS-2022-Coding-Language-Survey>   
+
+Public Cloud App: <http://sds-coding-language-survey-app.azurewebsites.net>   
