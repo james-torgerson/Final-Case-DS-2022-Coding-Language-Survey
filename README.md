@@ -87,6 +87,9 @@ This app does not serve logs/metrics beyond what can be seen in the console when
 **Passing Smoke Tests**   
 ![Screenshot of pytest passing on CLI](assets/pytest_pass.png)   
 
+**Azure Deployment**
+![Screenshot of Azure website showing the webapp deployment](assets/azure_deployment_1.png)
+![Screenshot of Azure webapp URL with visible HTML form](assets/azure_deployment_2.png)
 
 
 ## What's Next
@@ -102,3 +105,4 @@ Lastly, the application could be extended to include user authentication, which 
 GitHub Repository: <https://github.com/james-torgerson/Final-Case-DS-2022-Coding-Language-Survey>   
 
 Public Cloud App: <http://sds-coding-language-survey-app.azurewebsites.net>   
+
