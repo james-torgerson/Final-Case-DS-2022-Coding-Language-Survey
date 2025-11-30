@@ -29,8 +29,9 @@ UVA_Data_Science_Coding_Language_Survey/
    ├─ test_api.py        # Pytest tests for Flask API 
 ```
 
-Here's a screenshot of how the file looks the computer context:
+Here is a diagram of roughly how this application functions:
 
+![A diagram of the project's archicture. It shows the interaction between the client side (the html page) and the Flask API by way of HTTP GET/POST requests and JSON responses, as well as the relationship between the Flask API and the Storage by way of HTTP GET requests and JSON files.](assets/json-api-final-case-diagram.png)  
 
 ### Data/Models/Services
 Beyond the exact technologies used, this project was made possible by documentation of and tutorials for key Flask API and HTML concepts. Here are the links to those sources:   
@@ -105,4 +106,5 @@ Lastly, the application could be extended to include user authentication, which 
 GitHub Repository: <https://github.com/james-torgerson/Final-Case-DS-2022-Coding-Language-Survey>   
 
 Public Cloud App: <http://sds-coding-language-survey-app.azurewebsites.net>   
+
 
