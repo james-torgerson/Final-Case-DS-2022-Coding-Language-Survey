@@ -105,7 +105,8 @@ Lastly, the application could be extended to include user authentication, which 
 ## Links
 GitHub Repository: <https://github.com/james-torgerson/Final-Case-DS-2022-Coding-Language-Survey>   
 
-Public Cloud App: <http://sds-coding-language-survey-app.azurewebsites.net>   
+Public Cloud App: <http://sds-coding-language-survey-app.azurewebsites.net>   ***(NO LONGER ACTIVE)***
+
 
 
 
