@@ -6,7 +6,7 @@
 Imagine you are an administrator a UVA's School ofData Science. You want to gather information about what the most popular coding languages are amongst students and staff at the School of Data Science, so you can make informed decisions about what languages to focus on in the curriculum and what languages to offer support for in labs and workshops. To do this, you want to create an application that allows for users to submit their known coding languages via webform and a way to store that data for later analysis.
 
 ### Solution
-This project creates 1) an HTML form for users to submit data and 2) a Flask API backend to handle data submission and storage. The HTML form collects data about the user's name, email, position in the School of Data Science (BSDS, MSDS, PhD, Faculty, N/A), known coding languages (Python, R, SQL, Java, C/C++, and Go), and their proficiency with those languages (Just Starting Out, Beginning, Intermediate, Confident). The Flask API has endpoints to serve this HTML page, perform a health check, and to POST submitted survey data. This data is stored as a .ndjson file. This project is containerized using Docker for easier deployment, and it is served as a public web page using Azure App Services.
+This project creates 1) an HTML form for users to submit data and 2) a Flask API backend to handle data submission and storage. The HTML form collects data about the user's name, email, position in the School of Data Science (BSDS, MSDS, PhD, Faculty, N/A), known coding languages (Python, R, SQL, Java, C/C++, and Go), and their proficiency with those languages (Just Starting Out, Beginning, Intermediate, Confident). The Flask API has endpoints to serve this HTML page, perform a health check, and to POST submitted survey data. This data is stored as a .ndjson file. This project is containerized using Docker for easier deployment, and it is served as a public web page using Azure App Services. The HTML frontend also is accessible by WCAG standards.
 
 ## System Overview
 
@@ -106,5 +106,6 @@ Lastly, the application could be extended to include user authentication, which 
 GitHub Repository: <https://github.com/james-torgerson/Final-Case-DS-2022-Coding-Language-Survey>   
 
 Public Cloud App: <http://sds-coding-language-survey-app.azurewebsites.net>   
+
 
 
